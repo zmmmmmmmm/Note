@@ -51,3 +51,76 @@
     4.将修改后的内容提交给staging area(可以分多次)
     5.将staging area的内容计算校验和后提交到本地仓库
     6.本地仓库和远程仓库交互
+
+<br />
+
+#### GIT的配置文件
+
+> git自带一个git config的工具来帮助控制git的外观和行为的配置变量。这些变量分别存储在3个不同的位置
+
+- ###### /etc/gitconfig
+    
+        系统级别的配置文件: 包含系统上每一个用户及他们的仓库的通用配置。
+        如果使用--system(git config --system)。会从此文件中读写配置
+
+- ###### $HOME/.gitconfig
+
+        用户级别的配置文件
+        如果使用--global(git config --global)。会从此文件中读写配置
+
+    ```shell
+        git config --global user.name 'username'
+        git config --global user.email 'email'
+
+        # echo $HOME/.gitconfig
+        [user]
+
+            name = 'username'
+            email = 'email'
+    ```
+
+- ###### $PROJECT/.git/config
+
+        仓库级别的配置,包含了远程仓库地址等信息
+        不使用任何参数(git config)
+
+    ```shell
+        # echo $PROJECT/.git/config
+
+        [core] # TODO
+            repositoryformatversion = 0 # TODO
+            filemode = true # TODO
+            bare = false # TODO
+            logallrefupdates = true # TODO
+            ignorecase = true # TODO
+            precomposeunicode = true # TODO
+        [remote "origin"] # TODO
+            url = git@github.com:xxx/xx.git
+            fetch = +refs/heads/*:refs/remotes/origin/* # TODO
+        [branch "master"] # TODO
+            remote = origin # TODO
+            merge = refs/heads/master # TODO
+    ```
+
+<br />
+
+#### GIT配置的读取
+
+    按照配置维度下层配置覆盖上层配置
+
+```shell
+    # /ect/gitconfig
+    [user]
+        name = 'system'
+
+    # $HOME/.gitconfig
+    [user]
+        name = 'user'
+
+    # $PROJECT/.git/config
+    [user]
+        name = 'project'
+
+    # $PROJECT
+        user.name = 'project'
+```
